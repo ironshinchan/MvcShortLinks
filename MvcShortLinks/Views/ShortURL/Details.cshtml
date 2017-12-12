@@ -1,0 +1,50 @@
+﻿@model MvcShortLinks.Models.ShortURL
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>ShortURL</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Long_URL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Long_URL)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateAdded)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateAdded)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Short_URLID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Short_URLID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Short_URL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Short_URL)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NumOfVisit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NumOfVisit)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,70 @@
+﻿@model MvcShortLinks.Models.ShortURL
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>ShortURL</legend>
+
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Long_URL)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Long_URL)
+            @Html.ValidationMessageFor(model => model.Long_URL)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateAdded)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateAdded)
+            @Html.ValidationMessageFor(model => model.DateAdded)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Short_URLID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Short_URLID)
+            @Html.ValidationMessageFor(model => model.Short_URLID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Short_URL)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Short_URL)
+            @Html.ValidationMessageFor(model => model.Short_URL)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NumOfVisit)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NumOfVisit)
+            @Html.ValidationMessageFor(model => model.NumOfVisit)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

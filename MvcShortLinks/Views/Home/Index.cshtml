@@ -1,0 +1,127 @@
+﻿<!-- Masthead -->
+<header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h1 class="mb-5">Little. Less. Precise. Short Links.</h1>
+            </div>
+            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                <form>
+                    <div class="form-row">
+                        <div class="col-12 col-md-9 mb-2 mb-md-0">
+                            <input id="txtURL" class="form-control form-control-lg" placeholder="Paste Link to shorten">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button id="btnShorten" class="btn btn-block btn-lg btn-primary">GO!</button>
+                        </div>
+                        <div class="col-12 col-md-12 " style="margin-top: 10px">
+                            <div id="divErrorShorten" class="alert alert-danger" style="display: none">
+                                <span id="lblErrorMessage">...</span>
+                            </div>
+                            <div id ="divSuccessShorten" class="shorten-alert" style="display: none">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <span id="lblCopyShortenMessage">...</span>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div class="col-lg-12 h-100 my-auto">
+                                        <a id="lnkShortenLink" href="#" target="_blank"><span id="lblShortenURL"></span></a>&nbsp;&nbsp;
+                                        <button id="btnCopyLink" type="button" class="btn btn-success btn-copy">COPY</button>
+                                    </div>
+
+                                    <div class="col-lg-12 h-100 my-auto">
+                                        <span id="lblNumOfClicks" class="numberofclicks">0</span> <i class="default fa fa-bar-chart-o"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#txtURL").focus();
+        });
+
+        $("#btnShorten").click(function () {
+           // $(this).prop('disabled', true);
+
+            $("#divErrorShorten").hide(); 
+            $("#divSuccessShorten").hide();
+
+            $.ajax({
+                url: '../ShortURL/CreateShortURL',
+                type: 'POST',
+                data: {
+                    url: $("#txtURL").val(),
+                },
+                success: function (data) {
+                    
+
+                    if (data.success == false) {
+                        if ($.trim(data.success_code == 'INVALID_URL')) {
+                            $("#divErrorShorten").show();
+                            $("#lblErrorMessage").html(data.message);
+                        }
+                    }
+                    else {
+                        $("#lblCopyShortenMessage").html(data.message);
+                        $("#lblShortenURL").html(data.shorten_url);
+                        $("#lblNumOfClicks").html(data.num_clicks);
+                        $("#divSuccessShorten").show();
+                        $("#lnkShortenLink").attr('href', data.shorten_url);
+                        
+                        if ($.trim(data.success_code == 'SUCCESS_BUT_EXISTS')) { 
+                            
+                        }
+                        else if ($.trim(data.success_code == 'SUCCESS')) {
+
+                        }
+                    }
+                    
+                },
+                complete: function() {
+                    //$(this).prop('disabled', false);
+                }
+            });
+            return false;
+        });
+
+        $("#btnCopyLink").click(function () {
+            copyToClipboard($("#lblShortenURL").html());
+            return false;
+        });
+
+        function copyToClipboard(text) {
+            if (window.clipboardData && window.clipboardData.setData) {
+                // IE specific code path to prevent textarea being shown while dialog is visible.
+                return clipboardData.setData("Text", text);
+
+            } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                var textarea = document.createElement("textarea");
+                textarea.textContent = text;
+                textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+                } catch (ex) {
+                    console.warn("Copy to clipboard failed.", ex);
+                    return false;
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            }
+        }
+
+</script>
